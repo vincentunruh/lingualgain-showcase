@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="360" height="64" viewBox="0 0 360 64" role="img" aria-labelledby="title">
+  <title id="title">LingualGain</title>
+  <style>
+    .lingual { fill: #064e4b; }
+    .gain { fill: #008a94; }
+    @media (prefers-color-scheme: dark) {
+      .lingual { fill: #b8f2f0; }
+      .gain { fill: #6de4e7; }
+    }
+  </style>
+  <text x="0" y="49" font-family="system-ui, sans-serif" font-size="48" font-weight="700"><tspan class="lingual">Lingual</tspan><tspan class="gain">Gain</tspan></text>
+</svg>

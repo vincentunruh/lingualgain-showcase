@@ -1,59 +1,63 @@
-# LingualGain
+# ![LingualGain](assets/wordmark.svg)
 
-A language-learning app built around short conversations, with listening, contextual help and opportunities to respond.
+**Learn a language through conversations you can follow, hear and respond to.**
 
-**In development.** Built by [Vincent Unruh](https://github.com/vincentunruh). This repository is a product and engineering showcase, not a runnable application or public demo.
+I'm [Vincent Unruh](https://github.com/vincentunruh), building LingualGain across the browser interface, backend and content tooling. The app is in development; this is a showcase of implemented work, not a public demo.
 
-## Learning Through Conversation
+## Inside The Product
 
-The aim is to keep useful language connected to a situation, rather than present it as an isolated list to memorise.
+The conversation stays at the centre. A learner can listen to a line, reveal its meaning, explore an unfamiliar expression and respond in context.
 
-- Follow dialogue one sentence at a time, with scene imagery and audio controls.
-- Reveal translations and open contextual word explanations without leaving the conversation.
-- Respond through choice-based and typed practice, with feedback.
-- Use recording and pronunciation-practice interfaces where the speech service is available.
-- Return to saved learning positions and revisit material through Review.
+- **Follow the dialogue.** Move sentence by sentence through illustrated scenes, with audio playback.
+- **Get help in place.** Reveal translations or open a word sheet without leaving the conversation.
+- **Take a turn.** Answer choice-based and typed activities, then use the feedback to try again.
+- **Practise aloud.** Record a response or practise pronunciation when the speech service is available.
+- **Pick up later.** Resume a saved position and revisit previously encountered material through Review.
 
-These interactions are implemented. Content availability and speech-provider validation remain separate from the interface, and learning effectiveness has not been established by learner studies.
+## Three Engineering Challenges
 
-## The Engineering Behind It
+### 1. Navigation During Recording
 
-### Keep The Conversation Stable
+A swipe can arrive while the microphone permission dialog or a response is still pending. The interface needs to cancel the old interaction, release resources and keep late results out of the next screen. I use explicit lifecycle ownership and scoped rendering rather than letting controls independently update the page.
 
-Dialogue, translations, audio and navigation all share one small screen. Changing one should not unexpectedly move another or leave the wrong sentence playing. I separate rendering from interaction lifecycle ownership and test navigation alongside the controls it affects. The trade-off is more explicit coordination, rather than treating each control as an independent widget.
+**Checked:** cancelled recording requests, delayed responses, rapid clicks and feed navigation. [Read the case study](docs/engineering.md#1-navigation-and-asynchronous-interactions).
 
-### Make Help Available Without Losing Context
+### 2. Meaning In Context
 
-A word explanation should be easy to open and just as easy to leave. Contextual sheets keep the conversation in place, with keyboard dismissal and focus restoration. That lets help remain a secondary interaction instead of turning every unfamiliar word into a new page.
+A word can mean something different inside an expression. Help needs to preserve that context instead of displaying an unrelated dictionary meaning or example. Context selection is separated from sheet rendering so the selection rules can be tested without the interface.
 
-### Separate Content Preparation From Delivery
+**Checked:** expression consistency, unrelated examples, duplicate alternatives and missing data. [Read the case study](docs/engineering.md#2-contextual-help-without-context-loss).
 
-Learning material has dependencies: dialogue, translations, examples and exercises need to agree. The backend models content versions and validation/review states separately from learner delivery. This makes missing preparation visible rather than treating every generated result as ready to teach.
+### 3. Content That Stays Consistent
 
-[Engineering notes: decisions, trade-offs and verification](docs/engineering.md)
+Editing a dialogue can invalidate its translations, examples and exercises. I keep content versions, dependent material and review state distinct from delivery, so successful generation alone does not make material ready for learners.
 
-## Technology
+**Checked:** changed structured content, mismatched languages and stale review evidence. [Read the case study](docs/engineering.md#3-dependent-content-and-readiness).
 
-| Technology | Role |
+## Built With
+
+| Layer | Tools and role |
 | --- | --- |
-| JavaScript, HTML and CSS | Browser interface and interaction behaviour |
-| Node.js and Express | Application backend and HTTP API |
-| MongoDB | Application and learning-content persistence |
-| esbuild | Frontend bundling and source maps |
-| Vitest and Playwright | Automated checks and browser-based regression testing |
-
-At a high level:
+| Interface | JavaScript, HTML and CSS for dialogue, help and practice |
+| Backend | Node.js and Express for application behaviour and the HTTP API |
+| Persistence | MongoDB for content and learning state |
+| Development | esbuild for frontend bundles; Vitest and Playwright for regression testing |
 
 ```mermaid
 flowchart LR
-    A[Browser interface] <--> B[Application API]
-    B <--> C[Content and learning data]
+    UI[Browser interface] <--> API[Application backend]
+    API <--> DATA[Content and learning data]
+    style UI fill:#f3fefc,stroke:#008a94,color:#064e4b
+    style API fill:#f3fefc,stroke:#008a94,color:#064e4b
+    style DATA fill:#f3fefc,stroke:#008a94,color:#064e4b
 ```
 
-## About The Developer
+## Evidence And Scope
 
-I'm Vincent, a full-stack developer building the interface, APIs and supporting content tooling. I care about making a product understandable to use and practical to maintain, not just getting a feature onto the screen.
+A focused check on 31 October 2026 passed **67 tests across three suites, plus 23 pager checks**. These cover selected interactions and content contracts, not the entire application. [See the checks, results and limitations](docs/engineering.md#verification-snapshot).
 
-[Find me on GitHub](https://github.com/vincentunruh).
+Speech-provider quality, content qualification and learning effectiveness need separate validation. Product screenshots are omitted until their privacy and asset rights can be confirmed.
 
-The application source remains private while the project is in development. This repository documents selected work; it does not publish the application or license its source.
+The application source remains private. This repository shares selected product and engineering work, not a runnable or open-source build.
+
+[More about me](https://github.com/vincentunruh)

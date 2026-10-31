@@ -1,4 +1,4 @@
-# This repository is intentionally documentation-only.
+# This repository contains documentation and a reviewed brand asset only.
 # Ignore everything except the reviewed public allowlist.
 *
 !/.gitignore
@@ -6,3 +6,6 @@
 !/docs/
 /docs/*
 !/docs/engineering.md
+!/assets/
+/assets/*
+!/assets/wordmark.svg
