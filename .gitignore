@@ -1,0 +1,8 @@
+# This repository is intentionally documentation-only.
+# Ignore everything except the reviewed public allowlist.
+*
+!/.gitignore
+!/README.md
+!/docs/
+/docs/*
+!/docs/engineering.md
